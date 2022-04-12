@@ -1,12 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
-
-    <head>
-        <meta charset="UTF-8">
-        <title>Curso HTML5 Avançado</title>
-        
-        <style>
-			#status { 
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Curso HTML5 Avançado</title>
+	<style>
+		input[type=button] {
+			width:170px;
+			padding:10px;
+			color:#FFF;
+			background:linear-gradient(top, #F33, #933 );
+			background:-webkit-linear-gradient(top, #F33, #933 );
+			background:-moz-linear-gradient(top, #F33, #933 );
+			border:1px solid #333;
+			cursor:pointer;
+			border-radius:5px;
+			-webkit-border-radius:5px;
+			-moz-border-radius:5px;
+		}
+		#status { 
 				display:block;
 				padding:10px;
 				border:1px dotted #999;
@@ -16,36 +29,37 @@
 				margin-bottom:20px;
 				width:500px;
 			}
+	</style>
+	<script>
+		var nav = null;
 
-			input[type=button] {
-				width:170px;
-				padding:10px;
-				color:#FFF;
-				background:linear-gradient(top, #F33, #933 );
-				background:-webkit-linear-gradient(top, #F33, #933 );
-				background:-moz-linear-gradient(top, #F33, #933 );
-				border:1px solid #333;
-				cursor:pointer;
-				border-radius:5px;
-				-webkit-border-radius:5px;
-				-moz-border-radius:5px;
-			}			
-		</style>
-    
-        <script>        
-            var nav = null; 
-        
-			function pegarPosicao() {
-				document.getElementById("status").innerHTML = "aguarde..."; 
+		function pegarPosicao() {
+			document.querySelector('#status').innerHTML = "aguarde...";
+
+			if ( nav == null ) {
+				nav = window.navigator;
 			}
-	
-        </script>
-        
-	</head>
-    <body>
-        <div id="status"></div>
-        
-        <input type="button" onclick="pegarPosicao()" value="Pegar Geolocalização"  /> 
-    </body>
 
+			var geoloc = nav.geolocation;
+			if ( geoloc != null ) {
+				geoloc.getCurrentPosition( retornarPosicao, retornarFalha );
+			}
+
+			function retornarPosicao() {
+				var mensagem = "Sucesso! Foi possível identificar sua posição.";
+				document.querySelector('#status').innerHTML = mensagem;
+			}
+
+			function retornarFalha() {
+				var mensagem = "Falha! Não foi possível identificar sua posição.";
+				document.querySelector('#status').innerHTML = mensagem;
+			}
+		}
+	</script>
+</head>
+<body>
+	<div id="status"></div>
+
+	<input type="button" onclick="pegarPosicao()" value="Pegar Geolocalização">
+</body>
 </html>
